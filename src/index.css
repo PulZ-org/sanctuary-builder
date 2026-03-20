@@ -6,7 +6,9 @@
 
 @layer base {
   :root {
-    --background: 36 33% 95%;
+    --background: 180 40% 95%;
+    --gradient-from: 180 52% 81%;
+    --gradient-to: 290 14% 82%;
     --foreground: 30 10% 18%;
 
     --card: 36 30% 97%;
