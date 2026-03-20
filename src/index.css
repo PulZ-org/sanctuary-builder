@@ -64,7 +64,10 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply text-foreground font-sans antialiased;
+    background: linear-gradient(180deg, hsl(var(--gradient-from)), hsl(var(--gradient-to)), hsl(var(--gradient-from)));
+    background-size: 100% 400%;
+    animation: breathe 4s ease-in-out infinite;
     overflow-wrap: break-word;
   }
 

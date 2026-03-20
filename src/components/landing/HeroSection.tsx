@@ -14,7 +14,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen aura-gradient overflow-hidden" style={{ animation: "aura-shift 20s ease-in-out infinite" }}>
+    <section className="relative min-h-screen overflow-hidden">
       {/* Floating ambient shapes */}
       <div className="absolute top-20 left-[10%] w-64 h-64 rounded-full bg-lavender-light/30 blur-3xl" style={{ animation: "float 8s ease-in-out infinite" }} />
       <div className="absolute bottom-32 right-[15%] w-48 h-48 rounded-full bg-sage-light/40 blur-3xl" style={{ animation: "float 10s ease-in-out infinite 2s" }} />
