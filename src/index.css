@@ -134,6 +134,11 @@
   }
 }
 
+@keyframes breathe {
+  0%, 100% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+}
+
 @keyframes morph {
   0%, 100% { border-radius: 42% 58% 62% 38% / 44% 52% 48% 56%; }
   25% { border-radius: 52% 48% 38% 62% / 58% 42% 56% 44%; }
