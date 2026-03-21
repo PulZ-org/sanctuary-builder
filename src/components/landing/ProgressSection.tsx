@@ -33,7 +33,7 @@ const ProgressSection = () => {
   const areaD = `${pathD} L 100 ${chartHeight} L 0 ${chartHeight} Z`;
 
   return (
-    <section ref={ref} className="section-reveal py-24 lg:py-36">
+    <section id="progress" ref={ref} className="section-reveal py-24 lg:py-36">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center max-w-5xl mx-auto">
           <div className="section-reveal">
