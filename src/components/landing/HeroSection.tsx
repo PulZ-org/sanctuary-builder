@@ -1,17 +1,46 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import phoneMockup from "@/assets/phone-mockup.png";
+import whatsappImage from "@/assets/WhatsApp_Image_2026-03-21_at_18.03.07-removebg-preview (1).png";
 import logoImage from "@/assets/WhatsApp_Image_2026-03-21_at_12.38.25-removebg-preview.png";
+import watchImage from "@/assets/WhatsApp_Image_2026-03-21_at_19.35.41-removebg-preview.png";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const HeroSection = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState(
+    "You're on the list! We'll be in touch soon.",
+  );
   const ref = useScrollReveal();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    if (!email || isSubmitting) return;
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      const response = await fetch("/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.error || "Something went wrong. Try again.");
+      }
+      setSuccessMessage(
+        data?.status === "already"
+          ? "You're already on the list!"
+          : "You're on the list! We'll be in touch soon.",
+      );
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -79,15 +108,21 @@ const HeroSection = () => {
                   />
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-accent text-accent-foreground font-semibold text-sm hover:opacity-90 active:scale-[0.97] transition-all"
                   >
-                    Secure Early Access
+                    {isSubmitting ? "Submitting..." : "Secure Early Access"}
                     <ArrowRight size={16} strokeWidth={1.5} />
                   </button>
+                  {error ? (
+                    <div className="text-sm text-red-600">
+                      {error}
+                    </div>
+                  ) : null}
                 </>
               ) : (
                 <div className="px-5 py-3.5 rounded-2xl bg-sage-light/50 border border-sage/30 text-foreground text-sm font-medium">
-                  ✨ You're on the list! We'll be in touch soon.
+                  ✨ {successMessage}
                 </div>
               )}
             </form>
@@ -98,10 +133,22 @@ const HeroSection = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-accent/10 rounded-full blur-[80px] scale-75" />
               <img
-                src={phoneMockup}
+                src={whatsappImage}
                 alt="Pulz app showing the mood slider interface"
-                className="relative w-96 sm:w-[28rem] lg:w-[34rem] xl:w-[38rem] drop-shadow-2xl"
+                className="relative w-44 sm:w-[15rem] lg:w-[19rem] xl:w-[23rem] drop-shadow-2xl"
                 style={{ animation: "float 6s ease-in-out infinite" }}
+              />
+              <img
+                src={watchImage}
+                alt="Pulz app on a watch"
+                className="absolute -left-[220px] -bottom-2 w-24 sm:w-[9.5rem] lg:w-[13rem] xl:w-[16rem] rounded-3xl shadow-2xl outline outline-1 outline-black/40"
+                style={{
+                  animation: "float 6s ease-in-out infinite 1s",
+                  WebkitMaskImage:
+                    "radial-gradient(120% 120% at 50% 50%, #000 70%, transparent 100%)",
+                  maskImage:
+                    "radial-gradient(120% 120% at 50% 50%, #000 70%, transparent 100%)",
+                }}
               />
             </div>
           </div>

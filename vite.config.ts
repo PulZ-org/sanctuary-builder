@@ -8,6 +8,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      "/waitlist": "http://localhost:3001",
+    },
     hmr: {
       overlay: false,
     },
